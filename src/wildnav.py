@@ -6,7 +6,7 @@ from haversine import Unit
 import superglue_utils
 import os
 
-NEXT_FRAME_SLEEP_SEC = 5.0
+NEXT_FRAME_SLEEP_SEC = 0.0
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 ############################################################################################################
