@@ -27,3 +27,7 @@ python -m pip install scikit_learn --user --break-system-packages
 python -m pip install seaborn>=0.11.2 --user --break-system-packages
 
 ```
+
+# Yaw/Pitch/Roll Gimbal Visualization
+@See: https://ursinusgraphics.github.io/RollPitchYaw/
+@See: https://danceswithcode.net/engineeringnotes/rotations_in_3d/demo3D/rotations_in_3d_tool.html
