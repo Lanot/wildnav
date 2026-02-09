@@ -12,7 +12,7 @@ from superglue_lib.models.utils import (AverageTimer, VideoStreamer,
 torch.set_grad_enabled(False)
 
 
-def match_image(base_path: str, sleep_sec: float = 0.0):
+def match_image(image_id: str, base_path: str, sleep_sec: float = 0.0):
     """
     Wrapper function for matching two images, provides an interface to superglue model
     """
@@ -50,7 +50,7 @@ def match_image(base_path: str, sleep_sec: float = 0.0):
         raise ValueError('Cannot specify more than two integers for --resize')
 
     
-    device = 'cuda' if torch.cuda.is_available() and not force_cpu else 'cpu'
+    device = 'cuda' if torch.cuda.is_available() and not force_cpu else 'cpu' # @todo: add Mac M1-4 MPS device
     print('Running inference on device \"{}\"'.format(device))
     config = {
         'superpoint': {
@@ -213,7 +213,7 @@ def match_image(base_path: str, sleep_sec: float = 0.0):
 
         if output_dir is not None:
             #stem = 'matches_{:06}_{:06}'.format(last_image_id, vs.i-1)
-            stem = 'matches_{:06}_{:06}'.format(stem0, stem1)
+            stem = '{}_matches_{:06}_{:06}'.format(image_id, stem0, stem1)
             out_file = str(Path(output_dir, stem + '.png'))
             print('\nWriting image to {}'.format(out_file))
             cv2.imwrite(out_file, out)

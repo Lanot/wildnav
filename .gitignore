@@ -53,6 +53,6 @@ git_stuff.txt
 
 # custom
 .idea
-results/matches_*.png
-results/*_located.png
+results/*matches*.png
+results/*located*.png
 assets/map/*_query_image.png

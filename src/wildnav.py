@@ -162,7 +162,7 @@ print(str(len(drone_images_list)) + " drone photos were loaded.")
 
 
 # Iterate through all the drone images
-for drone_image in drone_images_list:
+for i, drone_image in enumerate(drone_images_list):
     latitude_truth.append(drone_image.latitude) # ground truth from drone image metadata for later comparison
     longitude_truth.append(drone_image.longitude) # ground truth for later comparison
     photo =  cv2.imread(drone_image.filename) # read the drone image
@@ -181,10 +181,10 @@ for drone_image in drone_images_list:
     for rot in rotations:
         
         # Write the query photo to the map folder
-        cv2.imwrite(map_path + "1_query_image.png", photo)
+        cv2.imwrite(map_path + "1_query_image.png", photo) # @TODO: ???
 
         #Call superglue wrapper function to match the query image to the map
-        satellite_map_index_new, center_new, located_image_new, features_mean_new, query_image_new, feature_number = superglue_utils.match_image(BASE_PATH, NEXT_FRAME_SLEEP_SEC)
+        satellite_map_index_new, center_new, located_image_new, features_mean_new, query_image_new, feature_number = superglue_utils.match_image('image_' + str(i + 1), BASE_PATH, NEXT_FRAME_SLEEP_SEC)
         
         # If the drone image was located in the map and the number of features is greater than the previous best match, then update the best match
         # Sometimes the pixel center returned by the perspective transform exceeds 1, discard the resuls in that case
@@ -205,7 +205,7 @@ for drone_image in drone_images_list:
         # Write the results to the image result file with the best match
         cv2.putText(located_image, "Calculated: " + str(current_location), org = (10,625),fontFace =  cv2.FONT_HERSHEY_DUPLEX, fontScale = 0.8,  color = (0, 0, 0))
         cv2.putText(located_image, "Ground truth: " + str(drone_image.latitude) + ", " + str(drone_image.longitude), org = (10,655),fontFace =  cv2.FONT_HERSHEY_DUPLEX, fontScale = 0.8,  color = (0, 0, 0))
-        cv2.imwrite("../results/" + photo_name + "_located.png", located_image)
+        cv2.imwrite(BASE_PATH + "/results/" + photo_name + "_located.png", located_image)
         
         print("Image " + str(photo_name) + " was successfully located in the map")
         print("Calculated location: ", str(current_location[0:2]))
