@@ -4,14 +4,17 @@ import cv2
 import haversine as hs
 from haversine import Unit
 import superglue_utils
+import os
+
+NEXT_FRAME_SLEEP_SEC = 5.0
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 ############################################################################################################
 # Important variables
 ############################################################################################################
-
-map_path = "../assets/map/"
-map_filename = "../assets/map/map.csv" #  csv file with the sattelite geo tagged images
-drone_photos_filename = "../assets/query/photo_metadata.csv" # csv file with the geo tagged drone images;
+map_path = BASE_PATH + "/assets/map/"
+map_filename = map_path + "/map.csv" #  csv file with the sattelite geo tagged images
+drone_photos_filename = BASE_PATH + "/assets/query/photo_metadata.csv" # csv file with the geo tagged drone images;
                                                              # the geo coordinates are only used to compare
                                                              # the calculated coordinates with the real ones
                                                              # after the feature matching
@@ -69,7 +72,7 @@ def csv_read_drone_images(filename):
     "photo_name.png",60.506787,22.311631,60.501037,22.324467
     """
     geo_list_drone = []
-    photo_path = "../assets/query/"
+    photo_path = BASE_PATH + "/assets/query/"
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
@@ -92,7 +95,7 @@ def csv_read_sat_map(filename):
     "photo_name.png",60.506787,22.311631,60.501037,22.324467
     """
     geo_list = []
-    photo_path = "../assets/map/"
+    photo_path = BASE_PATH + "/assets/map/"
     print("opening: ",filename)
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -181,7 +184,7 @@ for drone_image in drone_images_list:
         cv2.imwrite(map_path + "1_query_image.png", photo)
 
         #Call superglue wrapper function to match the query image to the map
-        satellite_map_index_new, center_new, located_image_new, features_mean_new, query_image_new, feature_number = superglue_utils.match_image()
+        satellite_map_index_new, center_new, located_image_new, features_mean_new, query_image_new, feature_number = superglue_utils.match_image(BASE_PATH, NEXT_FRAME_SLEEP_SEC)
         
         # If the drone image was located in the map and the number of features is greater than the previous best match, then update the best match
         # Sometimes the pixel center returned by the perspective transform exceeds 1, discard the resuls in that case

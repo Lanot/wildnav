@@ -3,7 +3,7 @@ import cv2
 import matplotlib.cm as cm
 import torch
 import numpy as np
-
+import time
 
 from superglue_lib.models.matching import Matching
 from superglue_lib.models.utils import (AverageTimer, VideoStreamer,
@@ -12,13 +12,13 @@ from superglue_lib.models.utils import (AverageTimer, VideoStreamer,
 torch.set_grad_enabled(False)
 
 
-def match_image(): 
+def match_image(base_path: str, sleep_sec: float = 0.0):
     """
     Wrapper function for matching two images, provides an interface to superglue model
     """
     center = None
-    input = '../assets/map/'
-    output_dir = "../results"
+    input = base_path + '/assets/map/'
+    output_dir = base_path + '/results'
     image_glob = ['*.png', '*.jpg', '*.jpeg', '*.JPG']
     skip = 1
     max_length = 1000000
@@ -217,8 +217,9 @@ def match_image():
             out_file = str(Path(output_dir, stem + '.png'))
             print('\nWriting image to {}'.format(out_file))
             cv2.imwrite(out_file, out)
-
-
+        
+        time.sleep(sleep_sec)
+        
     cv2.destroyAllWindows()
     vs.cleanup()
     

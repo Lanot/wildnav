@@ -53,4 +53,5 @@ git_stuff.txt
 
 # custom
 .idea
-var
+results/matches_*.png
+assets/map/*_query_image.png
