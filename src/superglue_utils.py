@@ -11,6 +11,13 @@ from superglue_lib.models.utils import (AverageTimer, VideoStreamer,
 
 torch.set_grad_enabled(False)
 
+def get_torch_device():
+    if torch.cuda.is_available():
+        return 'cuda'
+    elif torch.mps.is_available():
+        return 'mps'
+    else:
+        return 'cpu'
 
 def match_image(image_id: str, base_path: str, sleep_sec: float = 0.0):
     """
@@ -50,7 +57,7 @@ def match_image(image_id: str, base_path: str, sleep_sec: float = 0.0):
         raise ValueError('Cannot specify more than two integers for --resize')
 
     
-    device = 'cuda' if torch.cuda.is_available() and not force_cpu else 'cpu' # @todo: add Mac M1-4 MPS device
+    device = get_torch_device()
     print('Running inference on device \"{}\"'.format(device))
     config = {
         'superpoint': {
