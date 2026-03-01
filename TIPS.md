@@ -22,8 +22,14 @@ python -m pip list | grep torch
 
 # FIX for ``
 ```
-pip install numpy==1.26.4 --force-reinstall  --break-system-packages
+python3 -m pip install --upgrade pip setuptools wheel --break-system-packages
 pip install setuptools==75.3.3 --force-reinstall  --break-system-packages
+
+pip install numpy==1.26.4 --force-reinstall  --break-system-packages
+#pip install setuptools==75.3.3 --force-reinstall  --break-system-packages
+pip install --upgrade setuptools
+pip install --upgrade distribute 
+
 ```
 
 # FIX for `AttributeError: module 'cv2.dnn' has no attribute 'DictValue'`
@@ -37,10 +43,10 @@ python -m pip install opencv-contrib-python --break-system-packages
 
 # The rest of uninstalled packages (others may exist, if not install them too in the similar way)
 ```
-python -m pip install haversine==2.5.1 --user --break-system-packages
-python -m pip install pandas==1.4.2 --user --break-system-packages
-python -m pip install scikit_learn --user --break-system-packages
-python -m pip install seaborn>=0.11.2 --user --break-system-packages
+python -m pip install haversine==2.5.1 --break-system-packages
+python -m pip install pandas==1.4.2 --break-system-packages
+python -m pip install scikit_learn --break-system-packages
+python -m pip install seaborn>=0.11.2 --break-system-packages
 ```
 
 # Yaw/Pitch/Roll Gimbal Visualization
